@@ -3,11 +3,24 @@ import Movie from './Movie'
 import './styles.css'
 import { CircularProgress } from '@material-ui/core'
 
+type Props = {
+    movies: any
+    setMovies: any
+    setTempMovies: any
+}
+
+type Movie = {
+    imdbID: string
+    title: string
+    image: string
+    year: string
+}
+
 const API_KEY = 'bf45066e'
 
 const series = ['avengers', 'guardians of the galaxy', 'thor', 'pirates of the caribbean', 'harry portter']
 
-const Movies: React.FC = props => {
+const Movies: React.FC<Props> = props => {
     const [movies, setMovies] = useState([])
     useEffect(() => {
         const promises = series.map(series => {
@@ -16,19 +29,29 @@ const Movies: React.FC = props => {
         })
 
         Promise.all(promises).then((movies: any) => {
-            setMovies(movies.map((movie: any) => movie.Search))
+
+            const updateMovies: Movie[] = movies.map((movie: any) => movie.Search).flat(2).map((movie: any) => ({
+                title: movie.Title,
+                year: movie.Year,
+                image: movie.Poster,
+                imdb: movie.imdbID
+            }))
+
+            props.setMovies(updateMovies)
+            props.setTempMovies(updateMovies)
+
         })
 
     }, [])
 
-if(movies.length === 0) {
-    return <div className="loader">
-         <CircularProgress />
-    </div>
-}
+    if (props.movies.length === 0) {
+        return <div className="loader">
+            <CircularProgress />
+        </div>
+    }
 
     return <div className="movies">
-        {movies.flat(2).map((movie: any) => {
+        {props.movies.map((movie: any) => {
             return <Movie
                 key={movie.imdbID}
                 title={movie.Title}

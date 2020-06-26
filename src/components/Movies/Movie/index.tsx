@@ -3,8 +3,8 @@ import './styles.css'
 
 type Props = {
     title: string
-    year: string
     image: string
+    year: string
 }
 
 const Movie: React.FC<Props> = props => {
