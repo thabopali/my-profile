@@ -20,6 +20,28 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 'auto',
       },
     },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
   })
 )//)
 
@@ -38,13 +60,14 @@ const Header: React.FC = props => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          Material-UI
+          Our Movie Store
       </Typography>
         <div className={styles.search}>
-          <div>
+          <div className={styles.searchIcon}>
             <SearchIcon />
           </div>
           <InputBase
+            classes={{root: styles.inputRoot, input: styles.inputInput}}
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
           />
